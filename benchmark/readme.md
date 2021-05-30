@@ -1,0 +1,7 @@
+这是用来将各种奇奇怪怪的csv文件格式化的
+
+merge_to_one_csv 用于将生成的多个part合并为一个
+
+format_csv是用于将csv的列抽取出来
+
+列关系主要通过开始的mapping_rules映射
