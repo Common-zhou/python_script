@@ -1,4 +1,4 @@
-#coding=utf-8
+# coding=utf-8
 import pandas as pd
 import os
 
@@ -18,7 +18,7 @@ def merge_part(folder_path, save_path, save_name):
     # file_list = os.listdir(folder_path)
 
     # 读取第一个CSV文件并包含表头
-    df = pd.read_csv(folder_path + '/' + file_list[0], sep="|")  # 编码默认UTF-8，若乱码自行更改
+    df = pd.read_csv(folder_path + '/' + file_list[0], sep="|", dtype=object)  # 编码默认UTF-8，若乱码自行更改
 
     # 将读取的第一个CSV文件写入合并后的文件保存
     df.to_csv(save_path + '/' + save_name, encoding="utf_8", index=False, sep="|")
@@ -26,7 +26,7 @@ def merge_part(folder_path, save_path, save_name):
     # 循环遍历列表中各个CSV文件名，并追加到合并后的文件
     for i in range(1, len(file_list)):
         if file_list[i].endswith(".csv"):
-            df = pd.read_csv(folder_path + '/' + file_list[i], sep="|")
+            df = pd.read_csv(folder_path + '/' + file_list[i], sep="|", dtype=object)
             df.to_csv(save_path + '/' + save_name, encoding="utf_8", index=False, header=False, mode='a+', sep="|")
 
 
@@ -34,10 +34,11 @@ def print_list(path):
     print(os.listdir(path))
 
 
-file_path = "/root/sf1/static"
+file_path = "/root/sf1/dynamic"
 saved_path = r'/root/sf1/merge'
-file_list = ['Place']
-
+file_list = ['Comment', 'Comment_hasTag_Tag', 'Forum', 'Forum_hasMember_Person', 'Forum_hasTag_Tag', 'Person',
+             'Person_hasInterest_Tag', 'Person_knows_Person', 'Person_likes_Comment', 'Person_likes_Post',
+             'Person_studyAt_University', 'Person_workAt_Company', 'Post', 'Post_hasTag_Tag']
 
 if __name__ == '__main__':
     # 这是代表是否要进行合并

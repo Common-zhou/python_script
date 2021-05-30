@@ -1,4 +1,4 @@
-#coding=utf-8
+# coding=utf-8
 import pandas as pd
 import traceback
 
@@ -38,19 +38,24 @@ def convert_columns_name_tolower(list):
 
 def format_csv(absolute_path, saved_path, file):
     print(absolute_path)
-    df = pd.read_csv(absolute_path, sep="|")
+    df = pd.read_csv(absolute_path, sep="|", dtype=object)
     rename_columns = convert_columns_name_tolower(df.columns.tolist())
     df.columns = rename_columns
 
     choosed_columns = mapping_rules[file]
-
+    df = df[choosed_columns]
     print("expect columns: %d, actual get : %d" % (len(choosed_columns), len(df.columns.tolist())))
     df.to_csv(saved_path + '/' + file, encoding="utf_8", index=False, sep="|")
 
 
 file_path = r"/root/sf1/merge"
 saved_path = r'/root/sf1/format'
-file_list = ['Organisation.csv', 'Place.csv', 'Tag.csv', 'TagClass.csv']
+file_list = ['Comment.csv', 'Comment_hasTag_Tag.csv', 'Forum.csv', 'Forum_hasMember_Person.csv',
+             'Forum_hasTag_Tag.csv',
+             'Person.csv',
+             'Person_hasInterest_Tag.csv', 'Person_knows_Person.csv', 'Person_likes_Comment.csv',
+             'Person_likes_Post.csv',
+             'Person_studyAt_University.csv', 'Person_workAt_Company.csv', 'Post.csv', 'Post_hasTag_Tag.csv']
 
 if __name__ == '__main__':
     # 这些只是示例
