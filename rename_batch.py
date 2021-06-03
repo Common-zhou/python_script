@@ -17,6 +17,7 @@ def recursive_enter(need_rename_path):
     # 获取文件名：os.path.basename()
     if (not os.path.exists(need_rename_path)):
         # 路径不存在 溜溜球
+        print(need_rename_path + " not exist!")
         return
     parent_path = os.path.dirname(need_rename_path)
     file_name = os.path.basename(need_rename_path)
