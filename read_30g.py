@@ -1,26 +1,28 @@
 """将csv拆分为多个"""
-#import pandas as pd
+import pandas as pd
 # import thread
 import os
-
-os.environ["MODIN_ENGINE"] = "ray"  # Modin will use Ray
-os.environ["MODIN_ENGINE"] = "dask"  # Modin will use Dask
-import modin.pandas as pd
+import time  # 引入time模块
 
 
 # csv 路径:{output_csv1: {}, output_csv2:{}}
 def split_data(need_split, mapping, saved_path, re_mapping):
     df = pd.read_csv(need_split, sep="|", dtype=object)
-    for fname in mapping:
-        # print(fname)
-        # print(mapping[fname])
-        tuple_name_id = mapping[fname]
-        select_column = df[tuple_name_id[0]]
-        select_column = select_column.dropna(axis=0, subset=tuple_name_id[1])
+    start_time = time.clock()
 
-        if re_mapping is not None and fname in re_mapping:
-            select_column.columns = re_mapping[fname]
-        select_column.to_csv(saved_path + '/' + fname, encoding="utf_8", index=False, sep="|")
+    # for fname in mapping:
+    #     # print(fname)
+    #     # print(mapping[fname])
+    #     tuple_name_id = mapping[fname]
+    #     select_column = df[tuple_name_id[0]]
+    #     select_column = select_column.dropna(axis=0, subset=tuple_name_id[1])
+    #
+    #     if re_mapping is not None and fname in re_mapping:
+    #         select_column.columns = re_mapping[fname]
+    #     select_column.to_csv(saved_path + '/' + fname, encoding="utf_8", index=False, sep="|")
+    stop_time = time.clock()
+    cost = stop_time - start_time
+    print("cost %s second" % (cost))
     print(need_split + " complate......")
 
 
@@ -192,6 +194,4 @@ if __name__ == '__main__':
 
     for name in need_split:
         split_data(path + "/" + name, mapping[name], saved_path, re_mapping[name])
-        # thread.start_new_thread(split_data(path + "/" + name, mapping[name], saved_path, re_mapping[name]),
-        #                          ("Thread-" + name, 2,))
         print("start split: " + name)

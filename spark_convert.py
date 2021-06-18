@@ -1,28 +1,5 @@
-"""将csv拆分为多个"""
-#import pandas as pd
-# import thread
-import os
-
-os.environ["MODIN_ENGINE"] = "ray"  # Modin will use Ray
-os.environ["MODIN_ENGINE"] = "dask"  # Modin will use Dask
-import modin.pandas as pd
-
-
-# csv 路径:{output_csv1: {}, output_csv2:{}}
-def split_data(need_split, mapping, saved_path, re_mapping):
-    df = pd.read_csv(need_split, sep="|", dtype=object)
-    for fname in mapping:
-        # print(fname)
-        # print(mapping[fname])
-        tuple_name_id = mapping[fname]
-        select_column = df[tuple_name_id[0]]
-        select_column = select_column.dropna(axis=0, subset=tuple_name_id[1])
-
-        if re_mapping is not None and fname in re_mapping:
-            select_column.columns = re_mapping[fname]
-        select_column.to_csv(saved_path + '/' + fname, encoding="utf_8", index=False, sep="|")
-    print(need_split + " complate......")
-
+import numpy
+from pyspark import SparkContext, SparkConf
 
 mapping = {
     'Comment.csv': {
@@ -174,10 +151,37 @@ re_mapping = {
     }
 }
 
-# list = []
-# for i in mapping:
-#     list.append(i)
-# print(list)
+
+
+from pyspark import SparkContext, SparkConf
+
+# conf = SparkConf().setMaster("local[*]")
+# sc = SparkContext(conf=conf)
+
+from pyspark.sql import SparkSession
+
+spark = SparkSession.builder.enableHiveSupport().getOrCreate()
+
+
+def split_data(need_split, mapping, saved_path, re_mapping):
+    df = spark.read.options(header='True', delimiter='|').csv(need_split)
+    for fname in mapping:
+        # print(fname)
+        # print(mapping[fname])
+        tuple_name_id = mapping[fname]
+        select_column = df[tuple_name_id[0]]
+        select_column = select_column.dropna(subset=tuple_name_id[1])
+
+        print(re_mapping[fname])
+        print(type(re_mapping[fname]))
+
+        if re_mapping is not None and fname in re_mapping:
+            # select_column.columns = re_mapping[fname]
+            select_column = select_column.toDF(*re_mapping[fname])
+        select_column.coalesce(1).write.option("header", "true").option("sep", "|").csv(saved_path + '/' + fname)
+        # select_column.to_csv(saved_path + '/' + fname, encoding="utf_8", index=False, sep="|")
+    print(need_split + " complate......")
+
 
 all_list = ['Comment.csv', 'Forum.csv', 'Organisation.csv', 'Person.csv', 'Place.csv', 'Post.csv', 'TagClass.csv',
             'Tag.csv', 'Comment_hasTag_Tag.csv', 'Forum_hasMember_Person.csv', 'Forum_hasTag_Tag.csv',
@@ -188,10 +192,8 @@ all_list = ['Comment.csv', 'Forum.csv', 'Organisation.csv', 'Person.csv', 'Place
 if __name__ == '__main__':
     path = "/data/sf100/format"
     saved_path = "/data/sf100/resolve"
-    need_split = ['Comment.csv']
+    need_split = ['Post.csv']
 
     for name in need_split:
         split_data(path + "/" + name, mapping[name], saved_path, re_mapping[name])
-        # thread.start_new_thread(split_data(path + "/" + name, mapping[name], saved_path, re_mapping[name]),
-        #                          ("Thread-" + name, 2,))
         print("start split: " + name)
