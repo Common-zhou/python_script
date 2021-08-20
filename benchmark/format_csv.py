@@ -48,14 +48,9 @@ def format_csv(absolute_path, saved_path, file):
     df.to_csv(saved_path + '/' + file, encoding="utf_8", index=False, sep="|")
 
 
-file_path = r"/root/sf100/merge"
-saved_path = r'/root/sf100/format'
-file_list = ['Comment.csv', 'Comment_hasTag_Tag.csv', 'Forum.csv', 'Forum_hasMember_Person.csv',
-             'Forum_hasTag_Tag.csv',
-             'Person.csv',
-             'Person_hasInterest_Tag.csv', 'Person_knows_Person.csv', 'Person_likes_Comment.csv',
-             'Person_likes_Post.csv',
-             'Person_studyAt_University.csv', 'Person_workAt_Company.csv', 'Post.csv', 'Post_hasTag_Tag.csv']
+file_path = r"D:\tiger\data\SF1\composite-merged-fk\merge"
+saved_path = r'D:\tiger\data\SF1\composite-merged-fk\format'
+file_list = ['Organisation.csv', 'Place.csv', 'Tag.csv', 'TagClass.csv']
 
 if __name__ == '__main__':
     # 这些只是示例
@@ -68,8 +63,8 @@ if __name__ == '__main__':
 
     static_list = ['Organisation.csv', 'Place.csv', 'Tag.csv', 'TagClass.csv']
 
-    dynamic_path = r"D:\social\SF1.tar\composite-merged-fk\dynamic\merge"
-    static_path = r"D:\social\SF1.tar\composite-merged-fk\static\merge"
+    dynamic_path = r"D:\tiger\data\SF1\composite-merged-fk\dynamic"
+    static_path = r"D:\tiger\data\SF1\composite-merged-fk\merge"
 
     # 这是文件夹所在的地方
     parent_path = file_path

@@ -78,11 +78,9 @@ def print_list(path):
     print(os.listdir(path))
 
 
-file_path = "/home/ubuntu/ldbc_snb_datagen-dev/out/csv/raw/composite-merged-fk/dynamic"
-saved_path = r'/root/sf100/merge'
-file_list = ['Comment', 'Comment_hasTag_Tag', 'Forum', 'Forum_hasMember_Person', 'Forum_hasTag_Tag', 'Person',
-             'Person_hasInterest_Tag', 'Person_knows_Person', 'Person_likes_Comment', 'Person_likes_Post',
-             'Person_studyAt_University', 'Person_workAt_Company', 'Post', 'Post_hasTag_Tag']
+file_path = r"D:/tiger/data/SF1/composite-merged-fk/static"
+saved_path = r'D:/tiger/data/SF1/composite-merged-fk/merge'
+file_list = ['Organisation', 'Place', 'Tag', 'TagClass']
 
 if __name__ == '__main__':
     # 这是代表是否要进行合并
