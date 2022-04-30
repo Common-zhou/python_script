@@ -4,8 +4,8 @@
 """
 import os
 
-path = r"F:\实战项目\十次方(前后端)无加密 完整版\微服务"
-old_str = "【十次方禁广告闲聊讨论群863676367】"
+path = r"F:\架构训练营（0期直播完结）\业务架构"
+old_str = "【海量一手课程：666java.com】"
 replace_str = ""
 
 
@@ -38,5 +38,4 @@ def recursive_enter(need_rename_path):
 
 
 if __name__ == '__main__':
-    path = "F:/实战项目/十次方(前后端)无加密 完整版/微服务"
     recursive_enter(path)
