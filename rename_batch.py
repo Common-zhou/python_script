@@ -4,8 +4,8 @@
 """
 import os
 
-path = r"F:\架构训练营（0期直播完结）\业务架构"
-old_str = "【海量一手课程：666java.com】"
+path = r"D:\crashCourse\10分钟速成课：学习技能"
+old_str = "1-"
 replace_str = ""
 
 
