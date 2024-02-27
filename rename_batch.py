@@ -4,8 +4,8 @@
 """
 import os
 
-path = r"D:\crashCourse\10分钟速成课：学习技能"
-old_str = "1-"
+path = r"D:\crashCourse\十分钟速成课-科学史"
+old_str = "【Crashcourse公开课】"
 replace_str = ""
 
 
